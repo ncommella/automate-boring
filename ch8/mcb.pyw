@@ -5,6 +5,7 @@
 #       mcb.pyw <keyword> - Loads keyword to clipboard
 #       mcb.pyw list - Loads all keywords to clipboard
 #       mcb.pyw delete <keyword> - deletes keyword from data file
+#       mcb.pyw wipe - clears all keywords from shelf file
 
 import shelve, pyperclip, sys
 
@@ -21,9 +22,13 @@ if len(sys.argv) == 3 and sys.argv[1].lower() == 'delete':
 elif len(sys.argv) == 2:
     #List keywords and load content
     if sys.argv[1].lower() == 'list':
-        pyperclip.copy(str(list(mcbShelf.keys())))
-        print('List copied to clipboard')
-    # TODO: check for deleteAll keyword
+        print(str(list(mcbShelf.keys())))
+    #check for wipe keyword
+    #reopens new shelve file so file size doesn't balloon
+    if sys.argv[1].lower() == 'wipe':
+        mcbShelf.close()
+        mcbShelf = shelve.open('mcb', flag='n')
+        print('File wiped')
     elif sys.argv[1] in mcbShelf:
         pyperclip.copy(mcbShelf[sys.argv[1]])
         print('{} added to clipboard'.format(sys.argv[1]))
