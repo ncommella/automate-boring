@@ -8,12 +8,15 @@
 # As an added challenge, write another program that can insert gaps into
 # numbered files so that a new file can be added.
 
-import os
+import os, glob
 
 def update_files(directory, prefix):
-    for folder, subdirectory, filenames in os.walk(directory):
-        for fn in filenames:
-            #!!!! Look at glob and fnmatch modules
+    path = os.path.join(directory, prefix)
+
+    fileArray = glob.glob('{}???.txt'.format(path))
+    fileArray.sort()
+    print(fileArray)
+            
     # TODO: Walk through directory
     # TODO: search for files containing prefix
         # TODO: analyze numbering, looking for gaps in numbering
@@ -38,6 +41,7 @@ while True:
 
         update_files(searchDirectory, searchPrefix)
         break
+
     elif choice.lower() == "new":
         # Get searchDirectory from user
         searchDirectory = input("Enter a directory to search:\n")
@@ -46,7 +50,6 @@ while True:
 
         # Get searchPrefix from user
         searchPrefix = input("Enter a file prefix to search for:\n")
-
         print('New gap created!')
         break
     else:
