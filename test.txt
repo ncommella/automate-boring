@@ -1,0 +1,1 @@
+checking if code-server is configured with git!
